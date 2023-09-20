@@ -24,7 +24,7 @@
    <!-- standard run task, do "ant run" for this task -->
    <target name="jar" description="create bounce.jar" depends="compile">
       <echo message="Create bouncer.jar"/>
-      <jar destfile="bounce.jar" manifest="manifest.txt" basedir="." includes="*.class,bounce.fxml" />
+      <jar destfile="bounce.jar" manifest="manifest.txt" basedir="." includes="*.class" />
    </target>
 
    <!-- run this program from its jarfile -->

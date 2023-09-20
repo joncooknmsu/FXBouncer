@@ -11,6 +11,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.Slider;
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
+import javafx.scene.paint.Color;
 
 import javafx.scene.input.MouseEvent;
 import java.util.ArrayList;
@@ -27,8 +28,9 @@ private Circle redBall;
 private Pane gamePane;
 private ArrayList<FlyingBox> boxes;
 
-// Constructor cannot really do much since the FXML elements are not
-// yet initialized (try printing them; they're null)
+// Without FXML, we create all of the UI here in the
+// constructor. This is here in the controller so that 
+// it has access to the elements
 public BounceController(BorderPane appPane)
 {
     MenuBar menuBar = new MenuBar();
@@ -55,7 +57,7 @@ public BounceController(BorderPane appPane)
     // helpAbout.addEventHandler(null, controller);
     appPane.setTop(menuBar);
     gamePane = new Pane();
-    gamePane.setMinSize(200, 200);
+    gamePane.setMinSize(400, 500);
     appPane.setCenter(gamePane);
     speedSlider = new Slider();
     appPane.setBottom(speedSlider);
@@ -67,23 +69,18 @@ public BounceController(BorderPane appPane)
     });
 }
 
-// This is where we can actually do some "constructor" work when using FXML
+// This initializer separate from the constructor is
+// left over from the FXML code, but we can use it in
+// essentially the same way, and call it from 
+// Application.start() rather than Application.init()
 public void initialize()
 {
-    // System.out.println("BCI: FXApp:" + Bounce.app + " scene:" + Bounce.app.scene
-    // +
-    // " pane:" + Bounce.app.pane);
-    // System.out.println("BCI: slider:"+speedSlider+ " gpane:"+gamePane+ "
-    // circle:"+redBall);
-    //
-    // I have the red ball circle in my FXML but for some reason it is not
-    // resolving, so I explicitly look it up here (and this works). I think it
-    // is because it is nested in my gamePane, and maybe I need to do something
-    // different in my FXML to get it to auto-resolve.
-    // redBall = (Circle) gamePane.lookup("#redBall");
-    redBall = new Circle(20, 30, 45);
+    // the red ball was a special object declared
+    // in FXML; we keep it "special" in this code, too
+    redBall = new Circle(20, 60, 15);
+    redBall.setFill(Color.RED);
     gamePane.getChildren().add(redBall);
-    // make the boxes
+    // make the flying boxes
     makeBoxes();
     // The start line below is for the AnimationTimer part of this class;
     // we just let it run for the duration of the application
@@ -151,7 +148,7 @@ public void handle(long now)
 // This is our handler for when the slider is moved
 public void speedChanged(Event e)
 {
-    System.out.println("Speed changed! (" + e + ") " + redBall);
+    //System.out.println("Speed changed! (" + e + ") " + redBall);
     dirRate = (int) speedSlider.getValue();
     if (direction < 0)
         direction = -dirRate;
