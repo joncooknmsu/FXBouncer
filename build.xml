@@ -6,7 +6,7 @@
 
    <!-- standard compile task, but turn debugging on for source viewing -->
    <target name="compile" description="compile the source">
-      <javac srcdir="." includeantruntime="false" debug="true">
+      <javac srcdir="." excludes="nofxml/*.java" includeantruntime="false" debug="true">
         <compilerarg line="--module-path ${javafx}"/>
         <compilerarg line="--add-modules javafx.controls,javafx.fxml"/>
       </javac>
